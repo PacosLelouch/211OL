@@ -1,4 +1,4 @@
-package java_code;
+package javaCode;
 
 public class Response {
 	

@@ -1,12 +1,14 @@
-package java_code;
+package javaCode;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java_code.Response;
+import java.sql.SQLException;
 
-public class db_user_info {
+import javaCode.Response;
+
+public class DBController {
 	
 	/**
 	 * 连接数据库，获取statement
@@ -35,8 +37,9 @@ public class db_user_info {
 	 * @param password
 	 * @param email
 	 * @return 成功/失败
+	 * @throws SQLException 
 	 */
-	public Response add_new_user(String name, String password, String email){
+	public Response addNewUser(String name, String password, String email){
 		Response res = new Response();
 		Connection con = getConnection();
 		if(con == null) {
@@ -49,11 +52,13 @@ public class db_user_info {
 			try {
 				PreparedStatement stat = con.prepareStatement(sql);
 				stat.setString(1, name);
-				stat.setString(2, md5Encode.getMd5Str(password));
+				stat.setString(2, MD5Encode.getMd5Str(password));
 				stat.setString(3, email);
 				stat.executeUpdate();
 				res.setStatus(true);
 				res.setMsg("新增用户成功");
+				stat.close();
+				con.close();
 			}
 			catch (Exception e) {
 				// 如果结果是false 要么格式问题 要么用户名/邮箱重名
@@ -70,7 +75,7 @@ public class db_user_info {
 	 * @return 失败 data=null/成功 data=HashMap(取数据时强转HashMap即可)
 	 * @example {uid=6, name=135, email=1436@qf, register_time=2019-06-18 02:40:54.0}
 	 */
-	public Response show_user_info(String name) {
+	public Response showUserInfo(String name) {
 		Response res = new Response();
 		Connection con = getConnection();
 		if(con == null) {
@@ -88,6 +93,9 @@ public class db_user_info {
 				res.setStatus(true);
 				res.setMsg("用户信息如下");
 				res.setData(Helper.ResultSet_to_Map(rs));
+				rs.close();
+				stat.close();
+				con.close();
 			}
 			catch (Exception e) {
 				// 如果结果是false 要么格式问题 要么用户名不存在
@@ -104,7 +112,7 @@ public class db_user_info {
 	 * @param password
 	 * @return 成功/失败 data均=null
 	 */
-	public Response check_login(String name, String password) {
+	public Response checkLogin(String name, String password) {
 		Response res = new Response();
 		Connection con = getConnection();
 		if(con == null) {
@@ -117,7 +125,7 @@ public class db_user_info {
 			try {
 				PreparedStatement stat = con.prepareStatement(sql);
 				stat.setString(1, name);
-				stat.setString(2, md5Encode.getMd5Str(password));
+				stat.setString(2, MD5Encode.getMd5Str(password));
 				ResultSet rs = stat.executeQuery();
 				rs.last();
 				if(rs.getRow() == 0) {
@@ -128,6 +136,9 @@ public class db_user_info {
 					res.setStatus(true);
 					res.setMsg("登录成功");
 				}	
+				rs.close();
+				stat.close();
+				con.close();
 			}
 			catch (Exception e) {
 				res.setStatus(false);
