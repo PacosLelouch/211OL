@@ -11,10 +11,9 @@
 	<p>Hello World.</p>
 	<%
 		DBController test = new DBController();
-			/* Response res = test.add_new_user("111", "testing", "fefweg"); */
-			/* Response res = test.show_user_info("111"); */
-			Response res = test.check_login("111", "testing");
+		Response res = test.showScoreBoard(3);
 	%>
+	<%= res.getStatus() %>
 	<%= res.getMsg() %>
 	<%= res.getData() %>
 	
