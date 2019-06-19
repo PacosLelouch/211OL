@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    import="java_code.db_user_info, java_code.Response, java.util.*, java_code.md5Encode"%>
+    import="javaCode.DBController,javaCode.Response,java.util.*,javaCode.MD5Encode"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +10,10 @@
 <body>
 	<p>Hello World.</p>
 	<%
-		db_user_info test = new db_user_info();
-		/* Response res = test.add_new_user("111", "testing", "fefweg"); */
-		/* Response res = test.show_user_info("111"); */
-		Response res = test.check_login("111", "test1ing");
+		DBController test = new DBController();
+		Response res = test.showLoginRecord("135161");
 	%>
+	<%= res.getStatus() %>
 	<%= res.getMsg() %>
 	<%= res.getData() %>
 	

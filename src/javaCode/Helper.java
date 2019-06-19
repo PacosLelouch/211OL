@@ -1,4 +1,4 @@
-package java_code;
+package javaCode;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
