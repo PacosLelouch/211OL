@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DBController {
 	
@@ -518,6 +519,11 @@ public class DBController {
 		return res;
 	}
 	
+	/**
+	 * 展示得分榜
+	 * @param level
+	 * @return data = List<Map<String, Object>>
+	 */
 	public Response showScoreBoard(Integer level) {
 		Response res = new Response();
 		Connection con = getConnection();
@@ -542,7 +548,7 @@ public class DBController {
 					data.add(item);
 				}
 				res.setData(data);
-				res.setMsg("个人最佳游戏记录如下");
+				res.setMsg("得分榜");
 				res.setStatus(true);
 				rs.close();
 				stat.close();
@@ -551,6 +557,51 @@ public class DBController {
 			catch(Exception e) {
 				res.setStatus(false);
 				res.setMsg(e.getMessage());
+			}
+		}
+		return res;
+	}
+	
+	/**
+	 * 查个人的登录记录
+	 * @param name
+	 * @return data = List<Date>
+	 */
+	public Response showLoginRecord(String name) {
+		Response res = new Response();
+		Connection con = getConnection();
+		if(con == null) {
+			res.setStatus(false);
+			res.setMsg("连接数据库失败");
+		}
+		else {
+			Integer user_id = getUserIdByName(name);
+			if(user_id == null) {
+				res.setStatus(false);
+				res.setMsg("用户名不存在");
+			}
+			else {
+				String sql = "select login_time from login_record "
+						+ "where uid = ? order by login_time desc";
+				try {
+					PreparedStatement stat = con.prepareStatement(sql);
+					stat.setInt(1, user_id);
+					ResultSet rs = stat.executeQuery();
+					List<Date> data = new ArrayList<Date>();
+					while(rs.next()) {
+						data.add(rs.getTimestamp("login_time"));
+					}
+					res.setData(data);
+					res.setMsg("登录记录如下");
+					res.setStatus(true);
+					rs.close();
+					stat.close();
+					con.close();
+				}
+				catch (Exception e) {
+					res.setStatus(false);
+					res.setMsg(e.getMessage());
+				}	
 			}
 		}
 		return res;

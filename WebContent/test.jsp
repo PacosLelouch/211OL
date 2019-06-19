@@ -11,7 +11,7 @@
 	<p>Hello World.</p>
 	<%
 		DBController test = new DBController();
-		Response res = test.showScoreBoard(3);
+		Response res = test.showLoginRecord("135161");
 	%>
 	<%= res.getStatus() %>
 	<%= res.getMsg() %>
