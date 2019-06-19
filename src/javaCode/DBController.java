@@ -392,7 +392,7 @@ public class DBController {
 			res.setMsg("连接数据库失败");
 		}
 		else {
-			String sql = "select name, msg_text, msg_time from "
+			String sql = "select message.uid, name, msg_text, msg_time from "
 					+ "message inner join user_info on message.uid = user_info.uid "
 					+ "order by msg_time desc "
 					+ "limit ?,?";
@@ -404,6 +404,7 @@ public class DBController {
 				List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 				while(rs.next()) {
 					Map<String,Object> item = new HashMap<String,Object>();
+					item.put("uid", rs.getInt("uid"));
 					item.put("name", rs.getString("name"));
 					item.put("msg_text", rs.getString("msg_text"));
 					item.put("msg_time", rs.getTimestamp("msg_time"));	
@@ -524,7 +525,7 @@ public class DBController {
 	 * @param level
 	 * @return data = List<Map<String, Object>>
 	 */
-	public Response showScoreBoard(Integer level) {
+	public Response showScoreBoard(Integer level, Integer pgno, Integer pgcnt) {
 		Response res = new Response();
 		Connection con = getConnection();
 		if(con == null) {
@@ -534,10 +535,13 @@ public class DBController {
 		else {
 			String sql = "select name, score, playtime from "
 					+ "play_record inner join user_info on user_info.uid = play_record.uid "
-					+ "where level = ? order by score desc";
+					+ "where level = ? order by score desc "
+					+ "limit ?,?";
 			try {
 				PreparedStatement stat = con.prepareStatement(sql);
 				stat.setInt(1, level);
+				stat.setInt(2, pgno*pgcnt);
+				stat.setInt(3, pgcnt);
 				ResultSet rs = stat.executeQuery();
 				List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 				while(rs.next()) {
@@ -567,7 +571,7 @@ public class DBController {
 	 * @param name
 	 * @return data = List<Date>
 	 */
-	public Response showLoginRecord(String name) {
+	public Response showLoginRecord(String name, Integer pgno, Integer pgcnt) {
 		Response res = new Response();
 		Connection con = getConnection();
 		if(con == null) {
@@ -582,10 +586,13 @@ public class DBController {
 			}
 			else {
 				String sql = "select login_time from login_record "
-						+ "where uid = ? order by login_time desc";
+						+ "where uid = ? order by login_time desc "
+						+ "limit ?,?";
 				try {
 					PreparedStatement stat = con.prepareStatement(sql);
 					stat.setInt(1, user_id);
+					stat.setInt(2, pgno*pgcnt);
+					stat.setInt(3, pgcnt);
 					ResultSet rs = stat.executeQuery();
 					List<Date> data = new ArrayList<Date>();
 					while(rs.next()) {
