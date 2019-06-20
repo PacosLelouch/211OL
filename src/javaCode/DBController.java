@@ -36,7 +36,7 @@ public class DBController {
 	};	
 	
 	/**
-	 * è¿æ¥æ•°æ®åº“ï¼Œè·å–statement
+	 * Á¬½ÓÊı¾İ¿â£¬»ñÈ¡statement
 	 * @return Connection
 	 */
 	private Connection getConnection() {
@@ -51,18 +51,18 @@ public class DBController {
 			return con;
 		}
 		catch (Exception e){
-			System.out.println("è¿æ¥æ•°æ®åº“å‡ºç°å¼‚å¸¸");
+			System.out.println("Á¬½ÓÊı¾İ¿â³öÏÖÒì³£");
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 	
 	/**
-	 * æ³¨å†Œæ–°ç”¨æˆ·
+	 * ×¢²áĞÂÓÃ»§
 	 * @param name
 	 * @param password
 	 * @param email
-	 * @return æˆåŠŸ/å¤±è´¥
+	 * @return ³É¹¦/Ê§°Ü
 	 * @throws SQLException 
 	 */
 	public Response addNewUser(String name, String password, String email){
@@ -70,7 +70,7 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			String sql = "insert into user_info(name, password, email) values(?,?,?)";
@@ -81,7 +81,7 @@ public class DBController {
 				stat.setString(3, email);
 				stat.executeUpdate();
 				res.setStatus(true);
-				res.setMsg("æ–°å¢ç”¨æˆ·æˆåŠŸ");
+				res.setMsg("ĞÂÔöÓÃ»§³É¹¦");
 				stat.close();
 				con.close();
 			}
@@ -94,9 +94,9 @@ public class DBController {
 	}
 	
 	/**
-	 * æ ¹æ®ç”¨æˆ·åæŸ¥ç”¨æˆ·ä¿¡æ¯ï¼ˆé™¤å¯†ç ï¼‰
+	 * ¸ù¾İÓÃ»§Ãû²éÓÃ»§ĞÅÏ¢£¨³ıÃÜÂë£©
 	 * @param name
-	 * @return å¤±è´¥ data=null/æˆåŠŸ data=HashMap(å–æ•°æ®æ—¶å¼ºè½¬HashMapå³å¯)
+	 * @return Ê§°Ü data=null/³É¹¦ data=HashMap(È¡Êı¾İÊ±Ç¿×ªHashMap¼´¿É)
 	 * @example {uid=6, name=135, email=1436@qf, register_time=2019-06-18 02:40:54.0}
 	 */
 	public Response showUserInfo(String name) {
@@ -104,7 +104,7 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			String sql = "select uid, name, email, register_time from user_info "
@@ -114,7 +114,7 @@ public class DBController {
 				stat.setString(1, name);
 				ResultSet rs = stat.executeQuery();
 				res.setStatus(true);
-				res.setMsg("ç”¨æˆ·ä¿¡æ¯å¦‚ä¸‹");
+				res.setMsg("ÓÃ»§ĞÅÏ¢ÈçÏÂ");
 				res.setData(Helper.ResultSet_to_Map(rs));
 				rs.close();
 				stat.close();
@@ -129,17 +129,17 @@ public class DBController {
 	}
 	
 	/**
-	 * æ ¹æ®ç”¨æˆ·åå’Œå¯†ç åˆ¤æ–­ç™»å½•æ˜¯å¦æˆåŠŸ
+	 * ¸ù¾İÓÃ»§ÃûºÍÃÜÂëÅĞ¶ÏµÇÂ¼ÊÇ·ñ³É¹¦
 	 * @param name
 	 * @param password
-	 * @return æˆåŠŸ/å¤±è´¥ dataå‡=null
+	 * @return ³É¹¦/Ê§°Ü data¾ù=null
 	 */
 	public Response checkLogin(String name, String password) {
 		Response res = new Response();
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			String sql = "select uid from user_info where name = ? and password = ?";
@@ -151,11 +151,11 @@ public class DBController {
 				rs.last();
 				if(rs.getRow() == 0) {
 					res.setStatus(false);
-					res.setMsg("ç”¨æˆ·åæˆ–å¯†ç ä¸æ­£ç¡®");
+					res.setMsg("ÓÃ»§Ãû»òÃÜÂë²»ÕıÈ·");
 				}
 				else {
 					res.setStatus(true);
-					res.setMsg("ç™»å½•æˆåŠŸ");
+					res.setMsg("µÇÂ¼³É¹¦");
 				}	
 				rs.close();
 				stat.close();
@@ -170,7 +170,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æ ¹æ®ç”¨æˆ·åæ–°å¢ç™»å½•è®°å½•
+	 * ¸ù¾İÓÃ»§ÃûĞÂÔöµÇÂ¼¼ÇÂ¼
 	 * @param name
 	 * @return
 	 */
@@ -179,13 +179,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "insert into login_record(uid) values(?)";
@@ -194,7 +194,7 @@ public class DBController {
 					stat.setInt(1, user_id);
 					stat.executeUpdate();
 					res.setStatus(true);
-					res.setMsg("æ–°å¢ç™»å½•è®°å½•æˆåŠŸ");
+					res.setMsg("ĞÂÔöµÇÂ¼¼ÇÂ¼³É¹¦");
 					stat.close();
 					con.close();
 				}
@@ -209,7 +209,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æ·»åŠ æ–°çš„æ¸¸æˆè®°å½•
+	 * Ìí¼ÓĞÂµÄÓÎÏ·¼ÇÂ¼
 	 * @param name
 	 * @param level
 	 * @param score
@@ -220,13 +220,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "insert into play_record(uid,level,score) values(?,?,?)";
@@ -244,7 +244,7 @@ public class DBController {
 					res.setMsg(e.getMessage());
 				}
 				Integer target = target_score.get(level);
-				if(score >= target) {
+				if(target != null && score >= target) {
 					Integer n_level = next_level.get(level);
 					sql = "select * from highest_score where uid = ? and level = ?";
 					try {
@@ -260,10 +260,10 @@ public class DBController {
 							stat.setInt(1, user_id);
 							stat.setInt(2, n_level);
 							stat.executeUpdate();
-							res.setMsg("ä¿å­˜çºªå½•æˆåŠŸï¼Œè§£é”æ–°åœ°å›¾");
+							res.setMsg("±£´æ¼ÍÂ¼³É¹¦£¬½âËøĞÂµØÍ¼");
 						}
 						else {
-							res.setMsg("ä¿å­˜çºªå½•æˆåŠŸï¼Œæ–°åœ°å›¾å·²è§£é”è¿‡");
+							res.setMsg("±£´æ¼ÍÂ¼³É¹¦£¬ĞÂµØÍ¼ÒÑ½âËø¹ı");
 						}
 						rs.close();
 						stat.close();
@@ -273,7 +273,7 @@ public class DBController {
 					}
 				}
 				else {
-					res.setMsg("ä¿å­˜çºªå½•æˆåŠŸï¼Œæœ¬æ¬¡è®°å½•æœªèƒ½è§£é”æ–°åœ°å›¾");
+					res.setMsg("±£´æ¼ÍÂ¼³É¹¦£¬±¾´Î¼ÇÂ¼Î´ÄÜ½âËøĞÂµØÍ¼");
 				}
 				try {
 					con.close();
@@ -287,7 +287,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æ·»åŠ ç•™è¨€
+	 * Ìí¼ÓÁôÑÔ
 	 * @param name
 	 * @param text
 	 * @return
@@ -297,13 +297,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "insert into message(msg_text, uid) values(?,?)";
@@ -312,7 +312,7 @@ public class DBController {
 					stat.setString(1, text);
 					stat.setInt(2, user_id);
 					stat.executeUpdate();
-					res.setMsg("ç•™è¨€æˆåŠŸ");
+					res.setMsg("ÁôÑÔ³É¹¦");
 				}
 				catch(Exception e) {
 					res.setStatus(false);
@@ -324,10 +324,10 @@ public class DBController {
 	}
 	
 	/**
-	 * æ ¹æ®ç”¨æˆ·åç­›é€‰ä¸€å®šæ•°é‡çš„æ¸¸æˆè®°å½•
-	 * @param name ç”¨æˆ·å
-	 * @param pgno ç¬¬å‡ é¡µ
-	 * @param pgcnt ä¸€é¡µå¤šå°‘ä¸ªè®°å½•
+	 * ¸ù¾İÓÃ»§ÃûÉ¸Ñ¡Ò»¶¨ÊıÁ¿µÄÓÎÏ·¼ÇÂ¼
+	 * @param name ÓÃ»§Ãû
+	 * @param pgno µÚ¼¸Ò³
+	 * @param pgcnt Ò»Ò³¶àÉÙ¸ö¼ÇÂ¼
 	 * @return data = List<Map<String,Object>>
 	 */
 	public Response showPlayerRecord(String name, Integer pgno, Integer pgcnt) {
@@ -335,13 +335,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "select level, score, playtime from "
@@ -363,7 +363,7 @@ public class DBController {
 						data.add(item);
 					}
 					res.setData(data);
-					res.setMsg("æ¸¸æˆè®°å½•å¦‚ä¸‹");
+					res.setMsg("ÓÎÏ·¼ÇÂ¼ÈçÏÂ");
 					res.setStatus(true);
 					rs.close();
 					stat.close();
@@ -379,9 +379,9 @@ public class DBController {
 	}
 	
 	/**
-	 * æŸ¥æ‰¾æ‰€æœ‰ç©å®¶çš„ç•™è¨€
-	 * @param pgno ç¬¬å‡ é¡µ
-	 * @param pgcnt ä¸€é¡µå¤šå°‘ä¸ªä¿¡æ¯
+	 * ²éÕÒËùÓĞÍæ¼ÒµÄÁôÑÔ
+	 * @param pgno µÚ¼¸Ò³
+	 * @param pgcnt Ò»Ò³¶àÉÙ¸öĞÅÏ¢
 	 * @return data = List<Map<String, Object>>
 	 */
 	public Response showMessage(Integer pgno, Integer pgcnt) {
@@ -389,7 +389,7 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			String sql = "select message.uid, name, msg_text, msg_time from "
@@ -411,7 +411,7 @@ public class DBController {
 					data.add(item);
 				}
 				res.setStatus(true);
-				res.setMsg("ç•™è¨€è®°å½•å¦‚ä¸‹");
+				res.setMsg("ÁôÑÔ¼ÇÂ¼ÈçÏÂ");
 				res.setData(data);
 				rs.close();
 				stat.close();
@@ -426,7 +426,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æŸ¥è¯¢å•ä¸ªç©å®¶æœ€ä½³å¾—åˆ†
+	 * ²éÑ¯µ¥¸öÍæ¼Ò×î¼ÑµÃ·Ö
 	 * @param name
 	 * @return data = List<Map<String, Object>>
 	 */
@@ -435,13 +435,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "select highest_score.level, score, playtime from "
@@ -460,7 +460,7 @@ public class DBController {
 						data.add(item);
 					}
 					res.setData(data);
-					res.setMsg("ä¸ªäººæœ€ä½³æ¸¸æˆè®°å½•å¦‚ä¸‹");
+					res.setMsg("¸öÈË×î¼ÑÓÎÏ·¼ÇÂ¼ÈçÏÂ");
 					res.setStatus(true);
 					rs.close();
 					stat.close();
@@ -476,7 +476,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æŸ¥çœ‹æŸä¸ªç©å®¶å¼€äº†å¤šå°‘ä¸ªåœ°å›¾
+	 * ²é¿´Ä³¸öÍæ¼Ò¿ªÁË¶àÉÙ¸öµØÍ¼
 	 * @param name
 	 * @return data = List<Integer>
 	 */
@@ -485,13 +485,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "select level from highest_score "
@@ -505,7 +505,7 @@ public class DBController {
 						data.add(rs.getInt("level"));
 					}
 					res.setData(data);
-					res.setMsg("ä¸ªäººæœ€ä½³æ¸¸æˆè®°å½•å¦‚ä¸‹");
+					res.setMsg("¸öÈË×î¼ÑÓÎÏ·¼ÇÂ¼ÈçÏÂ");
 					res.setStatus(true);
 					rs.close();
 					stat.close();
@@ -521,7 +521,7 @@ public class DBController {
 	}
 	
 	/**
-	 * å±•ç¤ºå¾—åˆ†æ¦œ
+	 * Õ¹Ê¾µÃ·Ö°ñ
 	 * @param level
 	 * @return data = List<Map<String, Object>>
 	 */
@@ -530,7 +530,7 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			String sql = "select name, score, playtime from "
@@ -552,7 +552,7 @@ public class DBController {
 					data.add(item);
 				}
 				res.setData(data);
-				res.setMsg("å¾—åˆ†æ¦œ");
+				res.setMsg("µÃ·Ö°ñ");
 				res.setStatus(true);
 				rs.close();
 				stat.close();
@@ -567,7 +567,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æŸ¥ä¸ªäººçš„ç™»å½•è®°å½•
+	 * ²é¸öÈËµÄµÇÂ¼¼ÇÂ¼
 	 * @param name
 	 * @return data = List<Date>
 	 */
@@ -576,13 +576,13 @@ public class DBController {
 		Connection con = getConnection();
 		if(con == null) {
 			res.setStatus(false);
-			res.setMsg("è¿æ¥æ•°æ®åº“å¤±è´¥");
+			res.setMsg("Á¬½ÓÊı¾İ¿âÊ§°Ü");
 		}
 		else {
 			Integer user_id = getUserIdByName(name);
 			if(user_id == null) {
 				res.setStatus(false);
-				res.setMsg("ç”¨æˆ·åä¸å­˜åœ¨");
+				res.setMsg("ÓÃ»§Ãû²»´æÔÚ");
 			}
 			else {
 				String sql = "select login_time from login_record "
@@ -599,7 +599,7 @@ public class DBController {
 						data.add(rs.getTimestamp("login_time"));
 					}
 					res.setData(data);
-					res.setMsg("ç™»å½•è®°å½•å¦‚ä¸‹");
+					res.setMsg("µÇÂ¼¼ÇÂ¼ÈçÏÂ");
 					res.setStatus(true);
 					rs.close();
 					stat.close();
@@ -615,7 +615,7 @@ public class DBController {
 	}
 	
 	/**
-	 * æ ¹æ®nameè·å–uid
+	 * ¸ù¾İname»ñÈ¡uid
 	 * @param name
 	 * @return uid
 	 */
@@ -623,7 +623,7 @@ public class DBController {
 		Integer res = null;
 		Connection con = getConnection();
 		if(con == null) {
-			System.out.println("getUserIdByName - è¿æ¥æ•°æ®åº“å¤±è´¥");
+			System.out.println("getUserIdByName - Á¬½ÓÊı¾İ¿âÊ§°Ü");
 			return null;
 		}
 		else {

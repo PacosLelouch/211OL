@@ -1,1 +1,1 @@
-New web project using jsp and mysql.
+A new web project using jsp and mysql.

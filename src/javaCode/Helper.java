@@ -3,7 +3,6 @@ package javaCode;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.HashMap;
-import java.io.*;
 
 public class Helper {
 	
@@ -26,19 +25,5 @@ public class Helper {
 			System.out.println(e.getStackTrace());
 			return null;
 		}
-    }
-	
-//	public static void copyPhoto(String name) throws IOException {
-//		File default_photo = new File("../images/default.jpg");
-//	    String courseFile = default_photo.getPath();
-//	    InputStream fis = new FileInputStream(default_photo); // 默认头像
-//		OutputStream fos = new FileOutputStream("/images/photo" + "_" + name + ".jpg");
-//		byte []buf = new byte[(int) default_photo.length()];//避免空间浪费
-//		int len = 0;
-//		while((len = fis.read(buf))!= -1){   
-//			fos.write(buf, 0, len);
-//		}
-//		fis.close();
-//		fos.close();
-//	}
+    }  
 }

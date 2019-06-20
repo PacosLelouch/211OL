@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    import="javaCode.Helper,javaCode.Response,java.util.*,javaCode.MD5Encode"%>
+    import="javaCode.DBController,javaCode.Response,java.util.*,javaCode.MD5Encode"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +9,13 @@
 </head>
 <body>
 	<p>Hello World.</p>
-	<%  
-		Helper.copyPhoto("testing");
+	<%
+		DBController test = new DBController();
+		Response res = test.showLoginRecord("135161");
 	%>
+	<%= res.getStatus() %>
+	<%= res.getMsg() %>
+	<%= res.getData() %>
 	
 </body>
 </html>
