@@ -7,17 +7,13 @@
 <%@ page import="javaCode.Response" %>
 <%@ page import="javaCode.HtmlEncode" %>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String user, pwd, email;
-	boolean validRegister;
-	Response addResult;
-%>
 <jsp:useBean id="db" class="javaCode.DBController" scope="application" />
 <%
+	String user = "", pwd = "", email = "";
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits register.");*/
-	validRegister = true;
+	boolean validRegister = true;
 	if(request.getMethod().equalsIgnoreCase("post")){
 		user = request.getParameter("username");
 		pwd = request.getParameter("password");
@@ -25,12 +21,12 @@
 		if(user != null && user.length() >= 5 && user.length() <= 20 &&
 				pwd != null && pwd.length() >= 5 && pwd.length() <= 30 &&
 				email.length() <= 100){
-			addResult = db.addNewUser(user, pwd, email);
+			Response addResult = db.addNewUser(user, pwd, email);
 			if((boolean)addResult.getStatus() == false){
 				validRegister = false;
 			} else{
-				session.setAttribute("regUsername", user);
-				session.setAttribute("regEmail", email);
+				request.getSession().setAttribute("regUsername", user);
+				request.getSession().setAttribute("regEmail", email);
 				response.sendRedirect("checkRegister.jsp");
 			}
 		} else{
@@ -51,13 +47,13 @@
     <form method="post">
         <%-- {% csrf_token %} --%>
         <p>
-            <input type="text" class="textboxreg" name="username" placeholder="username(length from 5 to 20)" <%=user == null ? "" : "value=\"" + HtmlEncode.encode(user) + "\"" %> />
+            <input type="text" class="textboxreg" name="username" placeholder="username(length from 5 to 20)" <%=user == "" ? "" : "value=\"" + HtmlEncode.encode(user) + "\"" %> />
         </p>
         <p>
             <input type="password" class="textboxreg" name="password" placeholder="password(length from 5 to 30)" />
         </p>
         <p>
-            <input type="email" class="textboxreg" name="email" placeholder="email(length not longer than 100)" <%=email == null ? "" : "value=\"" + HtmlEncode.encode(email) + "\"" %>/>
+            <input type="email" class="textboxreg" name="email" placeholder="email(length not longer than 100)" <%=email == "" ? "" : "value=\"" + HtmlEncode.encode(email) + "\"" %>/>
         </p>
         <p>
             <input type="submit" class="btn" value="Register" />

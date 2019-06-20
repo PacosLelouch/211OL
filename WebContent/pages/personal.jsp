@@ -9,26 +9,20 @@
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.HtmlEncode" %>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String user;
-	String id;
-	boolean isLogin = false;
+<jsp:useBean id="db" class="javaCode.DBController" scope="application" />
+<%
 	int uploadStatus = 0;
 	HashMap<String, Object> info = new HashMap<String, Object>();
 	ArrayList<java.util.Date> loginRecord = new ArrayList<java.util.Date>();
 	ArrayList<HashMap<String, Object>> playRecord = new ArrayList<HashMap<String, Object>>();
 	ArrayList<HashMap<String, Object>> hs = new ArrayList<HashMap<String, Object>>();
-	String folderPath = "/images", fileDir, fileName, idStr;
-	DiskFileItem dfi;
-%>
-<jsp:useBean id="db" class="javaCode.DBController" scope="application" />
-<%
+	String folderPath = "/images", fileDir = "", fileName = "";
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits personal.");*/
-	user = (String)session.getAttribute("username");
-	isLogin = (Boolean)session.getAttribute("isLogin");
-	if(user == null || isLogin != true){
+	String user = (String)request.getSession().getAttribute("username");
+	Boolean isLogin = (Boolean)request.getSession().getAttribute("isLogin");
+	if(user == null || isLogin == null || isLogin != true){
 		response.sendError(403, "Invalid visit.");
 	} else{
 		info = (HashMap<String, Object>)db.showUserInfo(user).getData();
@@ -39,6 +33,7 @@
 		/*photo upload*/
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);//是否用multipart提交的? 
 		if (isMultipart && request.getMethod().equalsIgnoreCase("post")) { 
+			DiskFileItem dfi = null;
 			FileItemFactory factory = new DiskFileItemFactory(); 
 			//factory.setSizeThreshold(yourMaxMemorySize); //设置使用的内存最大值 
 			//factory.setRepository(yourTempDirectory);    //设置文件临时目录 

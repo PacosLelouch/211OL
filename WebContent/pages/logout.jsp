@@ -3,19 +3,18 @@
 %>
 <%--@ page import="java_code.IpAddrGetter" --%>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String ipAddr;
-%><%
+<%
+	//String ipAddr;
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits logout.");*/
-	if(session.getAttribute("isLogin") != null){
-		session.removeAttribute("isLogin");
+	if(request.getSession().getAttribute("isLogin") != null){
+		request.getSession().removeAttribute("isLogin");
 	}
-	if(session.getAttribute("username") != null){
-		session.removeAttribute("username");
+	if(request.getSession().getAttribute("username") != null){
+		request.getSession().removeAttribute("username");
 	}
-	System.out.println("Check logout:" + (String)session.getAttribute("isLogin"));
+	System.out.println("Check logout:" + (String)request.getSession().getAttribute("isLogin"));
 	response.sendRedirect(UrlRepository.getHome());
 %><!DOCTYPE HTML>
 <html>

@@ -8,24 +8,21 @@
 <%@ page import="javaCode.Response" %>
 <%@ page import="javaCode.HtmlEncode" %>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String user, postmsg, content;
+<jsp:useBean id="db" class="javaCode.DBController" scope="application" />
+<%
 	int msgPgno = 0;
 	int msgPgcnt = 50;
 	boolean guest = true;
 	HashMap<String, Object> info = new HashMap<String, Object>();
-	Response addResult;
-	int[] levelList;
+	int[] levelList = new int[]{3, 4, 5, 6, 7, 8, 9, 2};
 	ArrayList<HashMap<String, Object>> msg = new ArrayList<HashMap<String, Object>>();
 	ArrayList<HashMap<String, Object>> hs = new ArrayList<HashMap<String, Object>>();
-%>
-<jsp:useBean id="db" class="javaCode.DBController" scope="application" />
-<%
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits messageBoard.");*/
-	user = (String)session.getAttribute("username");
-	if(user == null || session.getAttribute("isLogin") == null){
+	String user = (String)request.getSession().getAttribute("username");
+	String postmsg = "", content = "";
+	if(user == null || request.getSession().getAttribute("isLogin") == null){
 		guest = true;
 	} else{
 		guest = false;
@@ -36,7 +33,7 @@
 		if(content == null || content.length() < 1 || content.length() > 300){
 			postmsg = "Invalid content";
 		} else{
-			addResult = db.addMessage(user, content);
+			Response addResult = db.addMessage(user, content);
 			Boolean status = (Boolean)addResult.getStatus();
 			if(status != null && status == false){
 				response.sendError(403, (String)addResult.getMsg());
@@ -60,7 +57,6 @@
 		}
 		msg = (ArrayList<HashMap<String, Object>>)db.showMessage(msgPgno, msgPgcnt).getData();
 		hs = new ArrayList<HashMap<String, Object>>();
-		levelList = new int[]{3, 4, 5, 6, 7, 8, 9, 2};
 		for(int level: levelList){
 			HashMap<String, Object> eachHs = new HashMap<String, Object>();
 			eachHs.put("level", new Integer(level));

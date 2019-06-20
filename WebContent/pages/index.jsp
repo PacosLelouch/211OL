@@ -7,23 +7,20 @@
 <%@ page import="javaCode.Response" %>
 <%@ page import="javaCode.HtmlEncode" %>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String username, password;
-	int level;
+<jsp:useBean id="db" class="javaCode.DBController" scope="application" />
+<%
+	String username = "", password = "";
 	boolean valid = true;
 	boolean isLogin = false;
 	ArrayList<Integer> levelList = new ArrayList<Integer>();
-%>
-<jsp:useBean id="db" class="javaCode.DBController" scope="application" />
-<%
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits index.");*/
-	System.out.println("Username:" + (String)session.getAttribute("username"));
-	System.out.println("isLogin:" + (Boolean)session.getAttribute("isLogin"));
-	if(session.getAttribute("isLogin") != null){
+	System.out.println("Username:" + (String)request.getSession().getAttribute("username"));
+	System.out.println("isLogin:" + (Boolean)request.getSession().getAttribute("isLogin"));
+	if(request.getSession().getAttribute("isLogin") != null){
 		isLogin = true;
-		username = (String)session.getAttribute("username");
+		username = (String)request.getSession().getAttribute("username");
 		if(username == null){
 			response.sendError(403, "Invalid user.");
 		}
@@ -40,8 +37,8 @@
 					password != null && password.length() >= 5 && password.length() <= 30){
 				Response checkResult = db.checkLogin(username, password);
 				if(checkResult.getStatus()){
-					session.setAttribute("username", username);
-					session.setAttribute("isLogin", true);
+					request.getSession().setAttribute("username", username);
+					request.getSession().setAttribute("isLogin", true);
 					response.sendRedirect("checkLogin.jsp");
 				} else{
 					valid = false;
@@ -85,7 +82,7 @@
     <form action="" method="post">
         <!--{% csrf_token %}%-->
         <p>
-            <input type="text" class="textbox" name="username" placeholder="username" <%=username == null ? "" : "value=\"" + HtmlEncode.encode(username) + "\"" %>/>
+            <input type="text" class="textbox" name="username" placeholder="username" <%=username == "" ? "" : "value=\"" + HtmlEncode.encode(username) + "\"" %>/>
         </p>
         <p>
             <input type="password" class="textbox" name="password" placeholder="password" />

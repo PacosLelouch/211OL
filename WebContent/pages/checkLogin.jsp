@@ -4,19 +4,16 @@
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String ipAddr;
-	String username;
-	Boolean isLogin;
-%>
 <jsp:useBean id="db" class="javaCode.DBController" scope="application" />
 <%
+	//String ipAddr = "";
+	String username = "";
+	Boolean isLogin = (Boolean)request.getSession().getAttribute("isLogin");
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits checkLogin.");*/
-	isLogin = (Boolean)session.getAttribute("isLogin");
 	if(isLogin != null){
-		username = (String)session.getAttribute("username");
+		username = (String)request.getSession().getAttribute("username");
 		db.addLoginRecord(username);
 		response.sendRedirect(UrlRepository.getHome());
 	} else {

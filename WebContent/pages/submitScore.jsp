@@ -5,17 +5,14 @@
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.Response" %>
-<%!
-	String name, score, extra;
-	String size;
-	Response addResult;
-%>
 <jsp:useBean id="db" class="javaCode.DBController" scope="application" />
 <%
+	String name = "", score = "", extra = "";
+	String size = "";
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits submitScore.");*/
-	name = (String)session.getAttribute("username");
+	name = (String)request.getSession().getAttribute("username");
 	if(name == null){
 		response.sendError(403, "Invalid user.");
 	} else{
@@ -24,7 +21,7 @@
 				size = request.getParameter("size");
 				score = request.getParameter("score");
 				System.out.println("size:" + size +",score:" + score);
-				addResult = db.addPlayRecord(name, Integer.parseInt(size), Integer.parseInt(score));
+				Response addResult = db.addPlayRecord(name, Integer.parseInt(size), Integer.parseInt(score));
 				if((Boolean)addResult.getStatus() == false){
 					response.sendError(403, (String)addResult.getMsg());
 				} else{

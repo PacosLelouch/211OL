@@ -5,15 +5,14 @@
 <%@ page import="javaCode.HtmlEncode" %>
 <%@ page import="javaCode.UrlRepository" %>
 <%--@ page import="javaCode.IpAddrGetter" --%>
-<%!
-	String name, direction;
-	String size;
-%><%
+<%
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits playing.");*/
-	name = (String)session.getAttribute("username");
-	if(name == null || session.getAttribute("isLogin") == null){
+	String name = (String)request.getSession().getAttribute("username");
+	String direction = "None";
+	String size = "3";
+	if(name == null || request.getSession().getAttribute("isLogin") == null){
 		response.sendError(403, "Invalid visit.");
 	} else{
 		direction = "None";

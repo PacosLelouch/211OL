@@ -4,20 +4,16 @@
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%@ page import="javaCode.HtmlEncode" %>
 <%@ page import="javaCode.UrlRepository" %>
-<%!
-	String ipAddr;
-	String name;
-	String email;
-%>
 <%
+	//String ipAddr = "";
 	request.setCharacterEncoding("utf-8");/*
 	ipAddr = IpAddrGetter.get(request);
 	System.out.println("IP Address:" + ipAddr + " visits check_login.");*/
-	name = (String)session.getAttribute("regUsername");
-	email = (String)session.getAttribute("regEmail");
+	String name = (String)request.getSession().getAttribute("regUsername");
+	String email = (String)request.getSession().getAttribute("regEmail");
 	if(name != null && email != null){
-		session.removeAttribute("regUsername");
-		session.removeAttribute("regEmail");
+		request.getSession().removeAttribute("regUsername");
+		request.getSession().removeAttribute("regEmail");
 	} else {
 		response.sendError(403, "Invalid visit. Need to register.");
 	}
