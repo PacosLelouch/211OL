@@ -8,8 +8,8 @@
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.HtmlEncode" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%!
-	String home = "index.jsp";
 	String user;
 	String id;
 	boolean isLogin = false;
@@ -75,22 +75,22 @@
 	}
 %><!DOCTYPE html>
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: personal</title>
 	<style>
 	</style>
 </head>
 <body>
     <br />
-    <a href="index.jsp"><input type="button" class="btn" value="Return" /></a>
+    <a href="<%=UrlRepository.getHome() %>"><input type="button" class="btn" value="Return" /></a>
     <br />
     <!--p>Here is <strong>{{ name }}</strong>'s information.</p-->
     <h1>Your Information</h1>
     <div class="personalinfolayout">
         <%-- TODO photo --%>
 		<div id="photo-title">Photo</div>
-        <img class="photo" src="../../../images/<%=(String)info.get("uid") %>_photo.jpg" onerror="javascript:this.src='../../../images/defaultGray.jpg'"/>
+        <img class="photo" src="<%=UrlRepository.getImagesUrl("") %><%=(String)info.get("uid") %>_photo.jpg" onerror="javascript:this.src='<%=UrlRepository.getImagesUrl("defaultGray.jpg") %>'">
         <form action="" encType="multipart/form-data" method="post" > 
 			<input type="file" name="selPicture" style="width: 330px; height: 23px; font-size: 16px;"><br />
 			<input type="submit" name="upload" id="upload" value="upload" class="btn"> 

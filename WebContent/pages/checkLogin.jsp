@@ -3,8 +3,8 @@
 %>
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%@ page import="javaCode.DBController" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%!
-	String home = "index.jsp";
 	String ipAddr;
 	String username;
 	Boolean isLogin;
@@ -18,15 +18,15 @@
 	if(isLogin != null){
 		username = (String)session.getAttribute("username");
 		db.addLoginRecord(username);
-		response.sendRedirect(home);
+		response.sendRedirect(UrlRepository.getHome());
 	} else {
 		response.sendError(403, "Invalid visit. Need to login.");
 	}
 %><!DOCTYPE HTML>
 <html>
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: checkLogin</title>
 	<style>
 	</style>

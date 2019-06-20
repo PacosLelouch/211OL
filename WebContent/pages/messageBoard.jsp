@@ -7,8 +7,8 @@
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.Response" %>
 <%@ page import="javaCode.HtmlEncode" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%!
-	String home = "index.jsp";
 	String user, postmsg, content;
 	int msgPgno = 0;
 	int msgPgcnt = 50;
@@ -71,15 +71,15 @@
 	}
 %><!DOCTYPE html>
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: messageBoard</title>
 	<style>
 	</style>
 </head>
 <body>
     <p>
-        <a href="index.jsp"><input type="button" class="btn" value="Return" /></a>
+        <a href="<%=UrlRepository.getHome() %>"><input type="button" class="btn" value="Return" /></a>
     </p>
     <h1>Score Board</h1>
     <div class="descriptioncenter">level</div>
@@ -160,7 +160,7 @@
             <% for(HashMap<String, Object> msgMap: msg){ %>
             <%-- {% for msgname, msgtxt, msgtime in msg %} --%>
             <tr>
-                <td align="center" rowspan="2"><img class="photo" src="../../../images/<%=(Integer)msgMap.get("uid") %>_photo.jpg" onerror="javascript:this.src='../../../images/defaultGray.jpg'"></td>
+                <td align="center" rowspan="2"><img class="photo" src="<%=UrlRepository.getImagesUrl("") %><%=(Integer)msgMap.get("uid") %>_photo.jpg" onerror="javascript:this.src='<%=UrlRepository.getImagesUrl("defaultGray.jpg") %>'"></td>
             	<td align="center"><%=HtmlEncode.encode((String)msgMap.get("name")) %></td>
             </tr>
             <tr>

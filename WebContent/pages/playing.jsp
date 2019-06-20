@@ -3,9 +3,9 @@
 %>
 <%@ page import="java.util.*" %>
 <%@ page import="javaCode.HtmlEncode" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%!
-	String home = "index.jsp";
 	String name, direction;
 	String size;
 %><%
@@ -27,8 +27,8 @@
 	}
 %><!DOCTYPE html>
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: playing</title>
 	<style>
 	</style>
@@ -74,7 +74,7 @@
         --%>
     </div>
     <br />
-    <a href="<%=home %>"><input type="button" class="btn" value="Return" /></a>
+    <a href="<%=UrlRepository.getHome() %>"><input type="button" class="btn" value="Return" /></a>
     <p><span id="submit-msg"></span></p>
 </body>
 <script src="2048.js">

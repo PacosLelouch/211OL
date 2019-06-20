@@ -3,8 +3,8 @@
 %>
 <%--@ page import="javaCode.IpAddrGetter" --%>
 <%@ page import="javaCode.HtmlEncode" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%!
-	String home = "index.jsp";
 	String ipAddr;
 	String name;
 	String email;
@@ -25,8 +25,8 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: checkRegister</title>
 </head>
 <body>
@@ -36,5 +36,5 @@
         <br />Email: <%=HtmlEncode.encode(email) %>
         <br />You can't change your password. Please remind it in your heart.
     </p>
-    <a href="<%=home %>"><input type="button" class="btn" value="Return" /></a>
+    <a href="<%=UrlRepository.getHome() %>"><input type="button" class="btn" value="Return" /></a>
 </body>

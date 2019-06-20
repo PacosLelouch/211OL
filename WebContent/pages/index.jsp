@@ -6,8 +6,8 @@
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.Response" %>
 <%@ page import="javaCode.HtmlEncode" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%!
-	String home = "index.jsp";
 	String username, password;
 	int level;
 	boolean valid = true;
@@ -54,8 +54,8 @@
 %><!DOCTYPE HTML>
 <html>
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: checkLogin</title>
 	<style>
 	</style>
@@ -63,7 +63,7 @@
 <body>
     <h1>211OL</h1>
 	<% if(isLogin == true){ %>
-    <h2>Welcome, <%=username %>. </h2>
+    <h2>Welcome, <%=HtmlEncode.encode(username) %>. </h2>
     <h2><a href="personal.jsp">Check your personal information.</a></h2>
     <a href="logout.jsp"><input type="button" class="btn" value="Logout" /></a>
     <form action="playing.jsp" method="get">

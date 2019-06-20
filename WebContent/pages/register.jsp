@@ -6,8 +6,8 @@
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.Response" %>
 <%@ page import="javaCode.HtmlEncode" %>
+<%@ page import="javaCode.UrlRepository" %>
 <%!
-	String home = "index.jsp";
 	String user, pwd, email;
 	boolean validRegister;
 	Response addResult;
@@ -40,8 +40,8 @@
 %>
 <!DOCTYPE html>
 <head>
-	<link rel="shortcut icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+	<link rel="shortcut icon" href="<%=UrlRepository.getImagesUrl("favicon.ico") %>" />
+    <link rel="stylesheet" type="text/css" href="<%=UrlRepository.getStylesUrl("style.css") %>" />
 	<title>211OL: register</title>
 	<style>
 	</style>
@@ -64,7 +64,7 @@
         </p>
 
     </form>
-    <a href="<%=home %>"><input type="button" class="btn" value="Return" /></a>
+    <a href="<%=UrlRepository.getHome() %>"><input type="button" class="btn" value="Return" /></a>
     <% if(validRegister == false){ %>
     <%-- {% if valid_register == False %} --%>
     <p><strong>Invalid information. Please register again.</strong></p>

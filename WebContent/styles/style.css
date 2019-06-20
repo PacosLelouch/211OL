@@ -33,7 +33,7 @@ h1{
     content: "";
     width: 14px;
     height: 8px;
-    background: url(../img/xiala.png) no-repeat center;
+    background: url(../../images/xiala.png) no-repeat center;
     position: absolute;
     right: 14px;
     top: 45%;

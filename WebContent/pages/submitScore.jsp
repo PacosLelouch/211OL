@@ -6,7 +6,6 @@
 <%@ page import="javaCode.DBController" %>
 <%@ page import="javaCode.Response" %>
 <%!
-	String home = "index.jsp";
 	String name, score, extra;
 	String size;
 	Response addResult;
