@@ -1,7 +1,7 @@
 package javaCode;
 
 public class UrlRepository{
-	static String imagesUrl = "../../images/";
+	static String imagesUrl = "../images/";
 	static String stylesUrl = "../styles/";
 	static String home = "index.jsp";
 	static public String getImagesUrl(String fileName){

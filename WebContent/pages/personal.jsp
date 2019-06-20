@@ -58,6 +58,7 @@
 					//out.print("文件被上传到服务上的实际位置："); 
 					fileName = (String)info.get("uid").toString() + "_photo.jpg";
 					fileDir = application.getRealPath(folderPath) + System.getProperty("file.separator") + fileName; 
+					System.out.println("File Directory:" + fileDir);
 					File newFile = new File(fileDir);
 					//out.print(newFile.getAbsolutePath() + "<br/>"); 
 					dfi.write(newFile); 
